@@ -11,13 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import Controller.Validacion;
 import Model.Estudiante;
 
 
 public class Formulario extends JFrame implements ActionListener{
     
-    Validacion validacion = new Validacion();
     EstudianteCtrl estudianteCtrl = new EstudianteCtrl();
     
     private JPanel pnlTitulo;
@@ -98,7 +96,8 @@ public class Formulario extends JFrame implements ActionListener{
         pnlOperacion.add(txtNumeroFijo);
         pnlOperacion.add(lblProgramaAcademico);
         pnlOperacion.add(txtProgramaAcademico);
-        
+        pnlOperacion.add(lblCorreoBuscar);
+        pnlOperacion.add(txtCorreoBuscar);
         //Definimos ahora los botones que utilizaremos para el crud
         this.pnlBotones = new JPanel();
         pnlBotones.setLayout(new GridLayout(2,3));
@@ -164,29 +163,33 @@ public class Formulario extends JFrame implements ActionListener{
         txtNumeroFijo.setText("");
         txtProgramaAcademico.setText("");
         txtNombres.requestFocus();
+        habilitar();
     }
     
     public void AgregarEstudiante(){
         
         Estudiante estudiante = new Estudiante();
         
-        estudiante.setNombres(validacion.leerDatoString(txtNombres.getText()));
-        estudiante.setApellidos(validacion.leerDatoString(txtApellidos.getText()));
-        estudiante.setFechaDeNacimiento(validacion.leerDatoString(txtFechaDeNacimiento.getText()));
-        estudiante.setCorreoInstitucional(validacion.leerDatoString(txtCorreoInstitucional.getText()));
-        estudiante.setCorreoPersonal(validacion.leerDatoString(txtCorreoPersonal.getText()));
-        estudiante.setNumeroCelular(validacion.leerDatoLong(txtNumeroCelular.getText()));
-        estudiante.setNumeroFijo(validacion.leerDatoLong(txtNumeroFijo.getText()));
-        estudiante.setProgramaAcademico(validacion.leerDatoString(txtProgramaAcademico.getText()));
+        estudiante.setNombres(txtNombres.getText());
+        estudiante.setApellidos(txtApellidos.getText());
+        estudiante.setFechaDeNacimiento(txtFechaDeNacimiento.getText());
+        estudiante.setCorreoInstitucional(txtCorreoInstitucional.getText());
+        estudiante.setCorreoPersonal(txtCorreoPersonal.getText());
+        estudiante.setNumeroCelular(Long.parseLong(txtNumeroCelular.getText()));
+        estudiante.setNumeroFijo(Long.parseLong(txtNumeroFijo.getText()));
+        estudiante.setProgramaAcademico(txtProgramaAcademico.getText());
         estudianteCtrl.registrar(estudiante);
+        LimpiarCampos();
     }
     
     public void ConsultarEstudianteCorreo(){
         String correoBuscar = txtCorreoBuscar.getText();
         estudianteCtrl.consultarEstudiante(correoBuscar);
+        this.setVisible(false);
     }
     
     public void Consultar(Estudiante estudiante){
+        
         
         txtNombres.setText(estudiante.getNombres());
         txtApellidos.setText(estudiante.getApellidos());
@@ -196,7 +199,7 @@ public class Formulario extends JFrame implements ActionListener{
         txtNumeroCelular.setText(Long.toString(estudiante.getNumeroCelular()));
         txtNumeroFijo.setText(Long.toString(estudiante.getNumeroFijo()));
         txtProgramaAcademico.setText(estudiante.getProgramaAcademico());
-        txtCorreoBuscar.setText("");
+        bloquear();
     }
     public void Actualizar(){
         Estudiante estudiante = new Estudiante();
@@ -208,13 +211,15 @@ public class Formulario extends JFrame implements ActionListener{
         estudiante.setProgramaAcademico(txtProgramaAcademico.getText());
         
         estudianteCtrl.modificar(estudiante);
+        LimpiarCampos();
     }
     
     public void Eliminar(){
-        LimpiarCampos();
+        
         String correo = txtCorreoInstitucional.getText();
         
         estudianteCtrl.eliminar(correo);
+        LimpiarCampos();
     }
     
     public void LimpiarCampos(){
@@ -226,5 +231,39 @@ public class Formulario extends JFrame implements ActionListener{
         txtNumeroCelular.setText("");
         txtNumeroFijo.setText("");
         txtProgramaAcademico.setText("");
+    }
+    
+    public void bloquear(){
+        txtNombres.setEditable(false);
+        txtApellidos.setEditable(false);
+        txtFechaDeNacimiento.setEditable(false);
+        txtCorreoBuscar.setVisible(false);
+        txtCorreoInstitucional.setEditable(false);
+        txtCorreoPersonal.setEditable(false);
+        txtNumeroCelular.setEditable(false);
+        txtNumeroFijo.setEditable(false);
+        txtProgramaAcademico.setEditable(false);
+        btnActualizar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnConsultar.setEnabled(false);  
+        lblCorreoBuscar.setVisible(false);
+    }
+    
+    public void habilitar(){
+        txtNombres.setEditable(true);
+        txtApellidos.setEditable(true);
+        txtFechaDeNacimiento.setEditable(true);
+        txtCorreoBuscar.setVisible(true);
+        txtCorreoInstitucional.setEditable(true);
+        txtCorreoPersonal.setEditable(true);
+        txtNumeroCelular.setEditable(true);
+        txtNumeroFijo.setEditable(true);
+        txtProgramaAcademico.setEditable(true);
+        btnActualizar.setEnabled(true);
+        btnGuardar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnConsultar.setEnabled(true);
+        lblCorreoBuscar.setVisible(true);
     }
 }

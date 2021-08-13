@@ -13,7 +13,7 @@ public class Conexion {
     public  Conexion() {
         try{
             //obtenemos el driver de para mysql
-            Class.forName("com.sqlite.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             //obtenemos la conexion
             conn = DriverManager.getConnection(url,login,password);
             if (conn!=null){

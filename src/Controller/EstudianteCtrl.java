@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Estudiante;
 import View.Formulario;
+import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,11 +35,10 @@ public class EstudianteCtrl {
 
     
 
-    public void consultarEstudiante(String correo)
+    public void consultarEstudiante(String Correo)
     {   
-        Formulario formulario = new Formulario();
         Estudiante estudiante = new Estudiante();
-        estudiante.setCorreoInstitucional(correo);
+        estudiante.setCorreoInstitucional(Correo);
 
         try {
 
@@ -64,7 +64,9 @@ public class EstudianteCtrl {
                 String programaAcademico = registro.getString("programaAcademico");
                 estudiante.setProgramaAcademico(programaAcademico);
                 
+                Formulario formulario = new Formulario();
                 formulario.Consultar(estudiante);
+                
             }
 
         } catch(SQLException ex){
